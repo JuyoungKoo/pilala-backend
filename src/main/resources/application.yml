@@ -1,0 +1,43 @@
+server:
+  port: 8001
+  
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: C##PILALA
+    password: PILALA
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  web:
+    resources:
+      static-locations: classpath:/productimgs/
+    
+# jpa config
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    database: oracle
+    properties:
+      hibernate:
+        '[format_sql]': true      
+      
+
+# 이미지 저장할 위치와 응답 시 이미지 주소 설정
+image:
+  # WebConfig에 세팅
+  add-resource-locations: classpath:/static/productimgs/
+  add-resource-handler: /productimgs/**
+  # ProductService에 세팅
+  image-dir: src/main/resources/static/productimgs
+  image-url: http://localhost:8001/productimgs/
+  
+# HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
+# Secret 값은 특정 문자열을 Base64 로 인코딩한 값 사용
+jwt:
+  secret: asdfjp298pafo1320efqw0udvnh0er0h412r08byfdq9dsvh02143908hfeqwn80fdqs0nfdqs0n412013rq0nqefn08dfas0das730732g86923
+  
+  
