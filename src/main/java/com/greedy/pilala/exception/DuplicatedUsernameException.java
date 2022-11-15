@@ -1,4 +1,4 @@
-package com.greedy.pilala.member.exception;
+package com.greedy.pilala.exception;
 
 public class DuplicatedUsernameException extends RuntimeException {
 	

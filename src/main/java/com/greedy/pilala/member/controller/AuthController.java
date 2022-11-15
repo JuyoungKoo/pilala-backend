@@ -32,8 +32,11 @@ public class AuthController {
 		
 	}
 	
-	
-	
 	/* 2. 로그인 */
+	@PostMapping("/login")
+	public ResponseEntity<ResponseDto> login(@RequestBody MemberDto memberDto){
+
+		return ResponseEntity.ok().body(new ResponseDto(HttpStatus.OK,"로그인성공", authService.login(memberDto)));
+	}
 
 }
