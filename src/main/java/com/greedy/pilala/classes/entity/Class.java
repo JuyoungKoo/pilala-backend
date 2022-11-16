@@ -15,11 +15,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name="TBL_CLASS")
-@SequenceGenerator(name="CLASS_SEQ_GENERATOR", sequenceName="SEQ_CLASS_CODE", initialValue = 1, allocationSize = 1)
 public class Class {
 
     @Id
     @Column(name="CLASS_CODE")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long classCode;
 
     @Column(name="CLASS_NAME")
@@ -41,15 +41,23 @@ public class Class {
     private Integer numStudent;
 
     @ManyToOne
-    @JoinColumn(name="MEMBER_CODE")
-    private Member member;
-
-    @ManyToOne
     @JoinColumn(name="TEACHER_CODE")
     private Teacher teacher;
 
     @Column(name="CLASS_IMAGE_URL")
     private String classImageUrl;
+
+    public  void update(String className,java.util.Date classDate,String classRoom,
+                        String startTime,String endTime, Integer numStudent,Teacher teacher, String classImageUrl){
+        this.className = className;
+        this.classDate = classDate;
+        this.classRoom = classRoom;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.numStudent = numStudent;
+        this.teacher = teacher;
+        this.classImageUrl = classImageUrl;
+    }
 
 
 }

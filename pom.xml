@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.greedy</groupId>
-	<artifactId>template</artifactId>
+	<artifactId>pilala</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>chap02-template</name>
+	<name>pilala</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
@@ -39,8 +39,8 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc8</artifactId>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>

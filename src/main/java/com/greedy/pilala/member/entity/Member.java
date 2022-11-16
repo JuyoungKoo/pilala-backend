@@ -19,13 +19,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "TBL_MEMBER")
-@SequenceGenerator(name="MEMBER_SEQ_GENERATOR", sequenceName = "SEQ_MEMBER_CODE", initialValue = 1, allocationSize = 1)
+//@SequenceGenerator(name="MEMBER_SEQ_GENERATOR", sequenceName = "SEQ_MEMBER_CODE", initialValue = 1, allocationSize = 1)
 @DynamicInsert
 public class Member {
 	
 	@Id
 	@Column(name= "MEMBER_CODE")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MEMBER_SEQ_GENERATOR")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long memberCode;
 	
 	@Column(name= "MEMBER_NAME")

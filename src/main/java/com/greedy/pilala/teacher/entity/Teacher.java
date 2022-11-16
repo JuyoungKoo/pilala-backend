@@ -12,13 +12,14 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name="TBL_TEACHER")
-@SequenceGenerator(name="TEACHER_SEQ_GENERATOR", sequenceName = "SEQ_TEACHER_CODE", initialValue = 1, allocationSize = 1)
+//@SequenceGenerator(name="TEACHER_SEQ_GENERATOR", sequenceName = "SEQ_TEACHER_CODE", initialValue = 1, allocationSize = 1)
 @DynamicInsert
 public class Teacher {
 
     @Id
     @Column(name= "TEACHER_CODE")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TEACHER_SEQ_GENERATOR")
+    //@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TEACHER_SEQ_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long teacherCode;
 
     @Column(name= "TEACHER_NAME")

@@ -4,6 +4,7 @@ package com.greedy.pilala.classes.service;
 import com.greedy.pilala.classes.dto.ClassDto;
 import com.greedy.pilala.classes.entity.Class;
 import com.greedy.pilala.classes.repository.ClassRepository;
+import com.greedy.pilala.teacher.entity.Teacher;
 import com.greedy.pilala.util.FileUploadUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -53,25 +54,110 @@ public class ClassService {
     }
 
 
-    @Transactional
-    public Object insertClass(ClassDto classDto) {
+    public ClassDto selectClassDetail(Long classCode) {
+        log.info("[ClassService] selectClassDetail Start =====================" );
+        log.info("[ClassService] classCode = {}" , classCode );
 
-        log.info("[ClassService] insertClass Start =====================" );
-        log.info("[ClassService] classDto : {}", classDto);
-        String imageName = UUID.randomUUID().toString().replace("-","");
-        String replaceFileName = null;
+        Class classes = classRepository.findById(classCode)
+                .orElseThrow(()-> new IllegalArgumentException("해당상품이 없습니다. classCode" + classCode));
+        ClassDto classDto = modelMapper.map(classes, ClassDto.class);
+        classDto.setClassImageUrl(IMAGE_URL + classDto.getClassImageUrl());
 
-        try{
-            replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, imageName, classDto.getClassImage());
-            classDto.setClassImageUrl(replaceFileName);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        log.info("[ClassService] classDto = {}" , classDto);
 
-        log.info("[ClassService] insertClass End =====================" );
+        log.info("[ClassService] selectClassDetail End =====================" );
 
         return classDto;
 
+
+
+
     }
+
+
+    @Transactional
+    public ClassDto insertClass(ClassDto classDto) {
+
+        log.info("[ClassService] insertClass Start ===================================");
+        log.info("[ClassService] classDto : {}", classDto);
+        String imageName = UUID.randomUUID().toString().replace("-", "");
+        String replaceFileName = null;
+
+        try {
+            replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, imageName, classDto.getClassImage());
+            classDto.setClassImageUrl(replaceFileName);
+
+            log.info("[ClassService] replaceFileName : {}", replaceFileName);
+
+            classRepository.save(modelMapper.map(classDto, Class.class));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            try {
+                FileUploadUtils.deleteFile(IMAGE_DIR, replaceFileName);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        log.info("[ClassService] insertClass End ===================================");
+
+        return classDto;
+    }
+
+    @Transactional
+    public ClassDto updateClass(ClassDto classDto) {
+
+        log.info("[ClassService] updateClass Start ===================================");
+        log.info("[ClassService] classDto : {}", classDto);
+
+        String replaceFileName = null;
+
+        try{
+            Class oriClass = classRepository.findById(classDto.getClassCode())
+                    .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다. classCode= " + classDto.getClassCode()));
+            String oriImage = oriClass.getClassImageUrl();
+
+            if (classDto.getClassImage() != null) {
+
+                /* 새로 입력 된 이미지 저장 */
+                String imageName = UUID.randomUUID().toString().replace("-", "");
+                replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, imageName, classDto.getClassImage());
+                classDto.setClassImageUrl(replaceFileName);
+
+                /* 기존에 저장 된 이미지 삭제*/
+                FileUploadUtils.deleteFile(IMAGE_DIR, oriImage);
+
+            } else {
+                /* 이미지를 변경하지 않는 경우 */
+                classDto.setClassImageUrl(oriImage);
+            }
+
+            /* 조회 했던 기존 엔티티의 내용을 수정 */
+            oriClass.update(classDto.getClassName(),
+                    classDto.getClassDate(),
+                    classDto.getClassRoom(),
+                    classDto.getStartTime(),
+                    classDto.getEndTime(),
+                    classDto.getNumStudent(),
+                    modelMapper.map(classDto.getTeacher(), Teacher.class),
+                    classDto.getClassImageUrl());
+
+            classRepository.save(oriClass);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            try {
+                FileUploadUtils.deleteFile(IMAGE_DIR, replaceFileName);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        log.info("[ProductService] updateProduct End ===================================");
+
+        return classDto;
+    }
+
 
 }

@@ -15,7 +15,6 @@ public class ClassDto {
     private String startTime;
     private String endTime;
     private Integer numStudent;
-    private MemberDto member;
     private TeacherDto teacher;
     private String classImageUrl;
 
