@@ -45,6 +45,10 @@ public class Member {
 	
 	@Column(name= "JOIN_DATE")
 	private String joinDate;
+
+	public void update(String memberRole){
+		this.memberRole = memberRole;
+	}
 	
 	
 
