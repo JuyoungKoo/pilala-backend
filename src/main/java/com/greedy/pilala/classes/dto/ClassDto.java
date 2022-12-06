@@ -10,7 +10,7 @@ public class ClassDto {
 
     private Long classCode;
     private String className;
-    private java.util.Date classDate;
+    private String classDate;
     private String classRoom;
     private String startTime;
     private String endTime;

@@ -25,7 +25,6 @@ public class ClassController {
 
     }
 
-
     //전체조회
     @GetMapping("/classes")
     public ResponseEntity<ResponseDto> selectClassList(@RequestParam(name="page", defaultValue = "1") int page){
@@ -37,7 +36,7 @@ public class ClassController {
 
         PagingButtonInfo pageInfo = Pagenation.getPagingButtonInfo(ClassDtoList);
 
-        log.info("[ProductController] pageInfo : {}", pageInfo);
+        log.info("[ClassController] pageInfo : {}", pageInfo);
 
         ResponseDtoWithPaging responseDtoWithPaging = new ResponseDtoWithPaging();
         responseDtoWithPaging.setPageInfo(pageInfo);
@@ -46,6 +45,7 @@ public class ClassController {
         return ResponseEntity.ok().body(new ResponseDto(HttpStatus.OK, "조회 성공", responseDtoWithPaging));
 
     }
+
 
     // 강의상세조회 - classCode
     @GetMapping("/classes/{classCode}")

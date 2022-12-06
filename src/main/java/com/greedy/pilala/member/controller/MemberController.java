@@ -33,6 +33,14 @@ public class MemberController {
 
     }
 
+    /* 회원 상세조회(memberCode)*/
+    @GetMapping("/member/{memberCode}")
+    public ResponseEntity<ResponseDto> selectMemberDetail(@PathVariable Long memberCode){
+
+        return ResponseEntity.ok().body(new ResponseDto(HttpStatus.OK,"멤버상상세조회 성공", memberService.selectMemberDetail(memberCode)));
+
+    }
+
 
     @GetMapping("/members")
     public ResponseEntity<ResponseDto> selectMemberList(@RequestParam(name="page", defaultValue = "1") int page){

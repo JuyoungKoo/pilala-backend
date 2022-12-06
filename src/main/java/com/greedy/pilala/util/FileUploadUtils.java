@@ -1,5 +1,6 @@
 package com.greedy.pilala.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -20,7 +21,8 @@ public class FileUploadUtils {
             Files.createDirectories(uploadPath);
         }
 
-        String replaceFileName = fileName + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+            String replaceFileName = fileName + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+
 
         try(InputStream inputStream = multipartFile.getInputStream()){
             Path filePath = uploadPath.resolve(replaceFileName);
@@ -45,5 +47,6 @@ public class FileUploadUtils {
 
 
     }
+
 
 }

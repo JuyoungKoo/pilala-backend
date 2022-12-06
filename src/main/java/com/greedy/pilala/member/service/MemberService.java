@@ -77,4 +77,19 @@ public class MemberService {
 
 
     }
+
+    public Object selectMemberDetail(Long memberCode) {
+
+        log.info("[MemberService] selectMemberDetail start =================");
+        log.info("[MemberService] memberCode : {} ", memberCode);
+
+        Member member = memberRepository.findById(memberCode)
+                .orElseThrow(()-> new UserNotFoundException(memberCode + "를 찾을 수 없습니다."));
+
+        log.info("[MemberService] memberId : {} ", member);
+
+        log.info("[MemberService] selectMemberDetail End =================");
+
+        return modelMapper.map(member, MemberDto.class);
+    }
 }

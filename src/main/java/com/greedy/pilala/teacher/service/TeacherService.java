@@ -1,10 +1,16 @@
 package com.greedy.pilala.teacher.service;
 
+import com.greedy.pilala.member.dto.MemberDto;
+import com.greedy.pilala.member.entity.Member;
 import com.greedy.pilala.teacher.dto.TeacherDto;
 import com.greedy.pilala.teacher.entity.Teacher;
 import com.greedy.pilala.teacher.repository.TeacherRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -37,6 +43,7 @@ public class TeacherService {
     }
 
 
+    @Transactional
     public Object deleteTeacher(Long teacherCode) {
 
         log.info("[TeacherService] deleteTeacher Start =========================");
@@ -51,6 +58,23 @@ public class TeacherService {
 
         return teacherCode;
 
+
+    }
+
+    public Page<TeacherDto> selectTeacherList(int page) {
+
+        log.info("[TeacherService] selectTeacherList start =================");
+        log.info("[TeacherService] page : {} ", page);
+
+        Pageable pageable = PageRequest.of(page -1, 10, Sort.by("teacherCode").descending());
+
+        Page<Teacher> teacherList = teacherRepository.findAll(pageable);
+        Page<TeacherDto> teacherDtoList = teacherList.map(teacher -> modelMapper.map(teacher, TeacherDto.class));
+
+        log.info("[TeacherService] teacherDtoList : {} ", teacherDtoList.getContent());
+        log.info("[TeacherService] selectTeacherList End =================");
+
+        return teacherDtoList;
 
     }
 }

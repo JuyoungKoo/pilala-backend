@@ -1,8 +1,6 @@
 package com.greedy.pilala.classes.entity;
 
-import com.greedy.pilala.member.dto.MemberDto;
-import com.greedy.pilala.member.entity.Member;
-import com.greedy.pilala.teacher.dto.TeacherDto;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.greedy.pilala.teacher.entity.Teacher;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +24,7 @@ public class Class {
     private String className;
 
     @Column(name="CLASS_DATE")
-    private java.util.Date classDate;
+    private String classDate;
 
     @Column(name="CLASS_ROOM")
     private String classRoom;
@@ -47,7 +45,7 @@ public class Class {
     @Column(name="CLASS_IMAGE_URL")
     private String classImageUrl;
 
-    public  void update(String className,java.util.Date classDate,String classRoom,
+    public  void update(String className,String classDate,String classRoom,
                         String startTime,String endTime, Integer numStudent,Teacher teacher, String classImageUrl){
         this.className = className;
         this.classDate = classDate;
